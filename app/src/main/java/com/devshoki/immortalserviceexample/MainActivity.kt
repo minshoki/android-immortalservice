@@ -20,12 +20,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        serviceIntent = startImmortal {
-            onStart = {
+        serviceIntent = startImmortal(this) {
+            onServiceStart {
 
             }
-
-            createNotification = {
+            actionBlock {
+                Log.e("shokitest", "ACTION BLOCK")
+            }
+            notification {
                 val builder = NotificationCompat.Builder(this@MainActivity, "default")
                 builder.setSmallIcon(com.devshoki.immortalservice.R.drawable.notification_icon_background)
                 builder.setContentTitle(null)
@@ -40,9 +42,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 builder.build()
-            }
-
-            actionBlock = {
             }
         }
     }

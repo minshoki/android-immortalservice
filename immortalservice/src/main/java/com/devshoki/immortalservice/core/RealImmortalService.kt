@@ -6,9 +6,8 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
-import com.devshoki.immortalservice.ImmortalOption
-import com.devshoki.immortalservice.listener.RealImmortalServiceListener
+import com.devshoki.immortalservice.Immortal
+import com.devshoki.immortalservice.ImmortalBuilder
 import java.util.*
 
 class RealImmortalService : Service() {
@@ -17,11 +16,9 @@ class RealImmortalService : Service() {
 
     companion object {
         var SERVICE_INTENT: Intent? = null
-        var OPTIONS: ImmortalOption? = null
+        var IMMORTAL: Immortal? = null
     }
 
-
-    var realImmortalServiceListener: RealImmortalServiceListener? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
     override fun onUnbind(intent: Intent?): Boolean {
@@ -31,20 +28,18 @@ class RealImmortalService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         SERVICE_INTENT = intent
 
-        realImmortalServiceListener?.let { it.onStart() }
-
         //block()
+
+        IMMORTAL?.let { o -> o.onStart() }
 
         mainThread = Thread(Runnable {
 
             var isRun = true
             while (isRun) {
                 try {
-                    OPTIONS?.let { o ->
-                        o.timeCycle.timeUnit.sleep(o.timeCycle.value)
-                        o.actionBlock?.let { block ->
-                            block()
-                        }
+                    IMMORTAL?.let { o ->
+                        o.sleepWithTimeCycle()
+                        o.action()
                     }
                 } catch (e: InterruptedException) {
                     isRun = false

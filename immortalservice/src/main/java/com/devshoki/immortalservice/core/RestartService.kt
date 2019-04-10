@@ -3,14 +3,6 @@ package com.devshoki.immortalservice.core
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.app.NotificationManager
-import android.app.NotificationChannel
-import android.os.Build
-import android.app.PendingIntent
-import android.content.Context
-import androidx.core.app.NotificationCompat
-import com.devshoki.immortalservice.R
-
 
 
 class RestartService: Service() {
@@ -21,9 +13,9 @@ class RestartService: Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
 
-        RealImmortalService.OPTIONS?.let { o ->
-            o.createNotification?.let { n ->
-                startForeground(9, n())
+        RealImmortalService.IMMORTAL?.let { o ->
+            o.notification()?.let { n ->
+                startForeground(9, n)
             }
         }
         //notification //
