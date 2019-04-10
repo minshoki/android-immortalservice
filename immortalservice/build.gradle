@@ -1,6 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+apply plugin: 'com.novoda.bintray-release'
+
+
+publish {
+    userOrg = 'minseok'
+    groupId = 'com.devshoki.utils'
+    artifactId = 'immortal-service'
+    publishVersion = '0.0.1-alpha'
+    desc = 'shoki immortal service'
+    repoName = 'devshoki-utils'
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -36,4 +48,8 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+tasks.withType(Javadoc).all {
+    enabled = false
 }
