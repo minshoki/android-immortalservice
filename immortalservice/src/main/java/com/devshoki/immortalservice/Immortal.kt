@@ -28,6 +28,10 @@ class Immortal(
             var timeUnit: TimeUnit
     )
 
+    fun isNotWorking(): Boolean {
+        return timeCycle.value == ImmortalBuilder.NO_ACTION
+    }
+
     fun sleepWithTimeCycle() {
         timeCycle.timeUnit.sleep(timeCycle.value)
     }

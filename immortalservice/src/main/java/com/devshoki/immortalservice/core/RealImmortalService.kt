@@ -30,26 +30,28 @@ class RealImmortalService : Service() {
 
         //block()
 
-        IMMORTAL?.let { o -> o.onStart() }
+        IMMORTAL?.let { o ->
+            o.onStart()
+            if(!o.isNotWorking()) {
+                mainThread = Thread(Runnable {
 
-        mainThread = Thread(Runnable {
-
-            var isRun = true
-            while (isRun) {
-                try {
-                    IMMORTAL?.let { o ->
-                        o.sleepWithTimeCycle()
-                        o.action()
+                    var isRun = true
+                    while (isRun) {
+                        try {
+                            IMMORTAL?.let { o ->
+                                o.sleepWithTimeCycle()
+                                o.action()
+                            }
+                        } catch (e: InterruptedException) {
+                            isRun = false
+                            e.printStackTrace()
+                        }
                     }
-                } catch (e: InterruptedException) {
-                    isRun = false
-                    e.printStackTrace()
-                }
+                })
+                mainThread?.start()
+
             }
-        })
-
-        mainThread?.start()
-
+        }
         return START_NOT_STICKY
     }
 

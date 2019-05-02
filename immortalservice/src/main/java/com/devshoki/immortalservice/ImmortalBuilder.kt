@@ -9,6 +9,14 @@ class ImmortalBuilder {
     private var actionBlock: (() -> Unit)? = null
     private var createNotification: (() -> Notification)? = null
 
+    companion object {
+        const val NO_ACTION = -30L
+    }
+
+    fun notWorking() {
+        timeCycle = Immortal.TimeCycle(NO_ACTION, TimeUnit.MINUTES)
+    }
+
     fun onServiceStart(block: (() -> Unit)? = null) {
         onStart = block
     }
